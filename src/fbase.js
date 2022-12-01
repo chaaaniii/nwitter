@@ -15,4 +15,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+export const firebaseInstance = firebase; //firebase인스턴스를 소셜로그인 할 때 쓰기위해.
+
 export const authService = firebase.auth();
