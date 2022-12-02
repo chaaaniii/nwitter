@@ -1,4 +1,4 @@
-import { dbService } from 'fbase'
+import { dbService, storageService } from 'fbase'
 import React, { useState } from 'react'
 
 const Nweet = ({ nweetObj, isOwner }) => {
@@ -13,7 +13,9 @@ const Nweet = ({ nweetObj, isOwner }) => {
             //doc의 documentPath는 위치가 됩니다.
             //home.js에서 map을 실행하면서 id를 가지고 있는 nweetObj를 보내고 여기서 받아오기 때문에
             //nweetObj.id를 넣어주면 된다.
-            await dbService.doc(`nweets/${nweetObj.id}`).delete();
+            await dbService.doc(`nweets/${nweetObj.id}/`).delete();
+            //이미지를 저장할 때, uuid로 무작위 값을 주었기 때문에 refFromURL로 URL에서 ref를 얻어와 이미지를 삭제.
+            await storageService.refFromURL(nweetObj.attachmentUrl).delete();
         }
     };
     const toggleEditing = () => setEditing((prev) => !prev);
@@ -46,6 +48,7 @@ const Nweet = ({ nweetObj, isOwner }) => {
                 ) : (
                     <>
                         <h4>{nweetObj.text}</h4>
+                        {nweetObj.attachmentUrl && <img src={nweetObj.attachmentUrl} width="50px" height="50px"/>}
                         {isOwner && (
                             <>
                                 <button onClick={onDeleteClick}>Delete nweet</button>

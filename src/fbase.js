@@ -19,3 +19,4 @@ export const firebaseInstance = firebase; //firebase인스턴스를 소셜로그
 
 export const authService = firebase.auth();
 export const dbService = firebase.firestore();
+export const storageService = firebase.storage();
